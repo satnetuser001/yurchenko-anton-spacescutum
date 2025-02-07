@@ -9,13 +9,16 @@ unoccupied ports 8098 8099
 
 to do:
 
-application web GUI
-http://localhost:8099
+application web GUI  
+[Laravel](http://localhost:8099)  
 
-phpMyAdmin settings
-webGUI:
-http://localhost:8098
-Username:
-root
-Password (from secrets):
-1077
+phpMyAdmin settings  
+webGUI:   
+[phpMyAdmin](http://localhost:8098)  
+Username:  
+root  
+Password (from secrets):  
+1077  
+
+temp:  
+docker exec -it php-cli bash
