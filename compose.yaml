@@ -1,1 +1,43 @@
 services:
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb:latest
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mariadb-root-password
+      MARIADB_DATABASE: laravel
+      TZ: ${TZ}
+    secrets:
+      - mariadb-root-password
+    volumes:
+      - yurchenko-anton-mariadb-data:/var/lib/mysql
+    networks:
+      - yurchenko-anton-spacescutum
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    ports:
+      - "8098:80"
+    environment:
+      PMA_HOST: mariadb
+      TZ: ${TZ}
+    depends_on:
+      - mariadb
+    networks:
+      - yurchenko-anton-spacescutum
+
+secrets:
+  mariadb-root-password:
+    file: ./secrets/mariadb_root_password.txt
+
+volumes:
+  yurchenko-anton-mariadb-data:
+    name: yurchenko-anton-mariadb-data
+
+networks:
+  yurchenko-anton-spacescutum:
+    name: yurchenko-anton-spacescutum
+    driver: bridge
