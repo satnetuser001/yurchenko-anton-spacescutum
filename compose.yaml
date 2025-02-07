@@ -1,5 +1,22 @@
 services:
 
+  php-cli:
+    container_name: php-cli
+    build:
+      context: ./php-cli
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8099:8000"
+    depends_on:
+      - mariadb
+    volumes:
+      - type: bind
+        source: ./laravel-development
+        target: /app
+    networks:
+      - yurchenko-anton-spacescutum
+
   mariadb:
     container_name: mariadb
     image: mariadb:latest
