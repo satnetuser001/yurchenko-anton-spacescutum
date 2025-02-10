@@ -4,11 +4,38 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class AuthController extends Controller
 {
+    /**
+     * Show login form.
+     */
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+    /**
+     * Authenticate user.
+     */
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->route('dashboard');
+        }
+
+        return back()->withErrors(['email' => 'Invalid credentials.']);
+    }
+
     /**
      * Show registration form.
      */
@@ -18,7 +45,7 @@ class AuthController extends Controller
     }
 
     /**
-     * User registration and issue a token.
+     * Register a new user and issue an API token.
      */
     public function register(Request $request)
     {
@@ -34,9 +61,24 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        // Create a token for the user.
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Генерируем API-токен
+        $token = $user->createToken('web_gen')->plainTextToken;
 
-        return view('auth.token', ['token' => $token]);
+        Auth::login($user);
+
+        // Передаем токен на страницу dashboard
+        return redirect()->route('dashboard')->with('token', $token);
+    }
+
+    /**
+     * Logout user.
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('home');
     }
 }
