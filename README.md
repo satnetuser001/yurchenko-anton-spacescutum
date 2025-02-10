@@ -9,6 +9,7 @@ unoccupied ports 8098 8099
 
 to do:
 APP_DEBUG=true->false
+change redirect of unauthenticated user from "/login" to "/"
 
 application web GUI  
 [Laravel](http://localhost:8099)  
