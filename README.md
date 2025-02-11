@@ -239,7 +239,7 @@ Read all orders
 ```bash
 curl -X GET -i "http://localhost:8099/api/orders" \
      -H "Accept: application/json" \
-     -H "Authorization: 6|1MnqzoxRtVhy6rSbiBtGUsvwxbImUA6mzwMnIfra341d63ae"
+     -H "Authorization: Bearer 6|1MnqzoxRtVhy6rSbiBtGUsvwxbImUA6mzwMnIfra341d63ae"
 ```
 Read one order by ID
 ```bash
