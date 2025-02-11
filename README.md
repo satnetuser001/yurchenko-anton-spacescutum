@@ -56,9 +56,6 @@ docker exec -it php-cli bash
 php artisan migrate
 exit
 ```
-
-
-
 ### Web GUI testing
 Open in your browser [php-cli](http://localhost:8099) container with Laravel.  
 
@@ -109,7 +106,7 @@ user8@example.com
 ```bash
 9|ZVLLrP3sa4iBgQ3QS05NHVkOwfOZ31KTVpTSRdfO081efed7
 ```
-## User  
+# Users API  
 Create new user
 ```bash
 curl -X POST -i "http://localhost:8099/api/users" \
@@ -150,7 +147,7 @@ curl -X DELETE -i "http://localhost:8099/api/users/5" \
      -H "Accept: application/json" \
      -H "Authorization: Bearer 5|lzfyhrISeMEnowvWWlSKB17p8fROAnLJQixQrMuw101f3435"
 ```
- ## Product  
+ # Products API  
 Create new product
 ```bash
 curl -X POST -i "http://localhost:8099/api/products" \
@@ -195,7 +192,7 @@ curl -X DELETE -i "http://localhost:8099/api/products/1" \
      -H "Accept: application/json" \
      -H "Authorization: Bearer 6|1MnqzoxRtVhy6rSbiBtGUsvwxbImUA6mzwMnIfra341d63ae"
 ```
-## Product Filters  
+# Products API with Filters  
 Filter products by category
 ```bash
 curl -X GET -i "http://localhost:8099/api/products?category=Category1" \
@@ -226,7 +223,7 @@ Filter products by popularity in descending order
 curl -X GET -i "http://localhost:8099/api/products?popular=desc" \
      -H "Accept: application/json"
 ```
-## Order  
+# Orders API  
 Create new order
 ```bash
 curl -X POST -i "http://localhost:8099/api/orders" \
@@ -234,7 +231,8 @@ curl -X POST -i "http://localhost:8099/api/orders" \
      -H "Content-Type: application/json" \
      -H "Authorization: Bearer 6|1MnqzoxRtVhy6rSbiBtGUsvwxbImUA6mzwMnIfra341d63ae" \
      -d '{
-          "product_id": 1
+          "product_id": 2,
+          "order_id": 5
      }'
 ```
 Read all orders
@@ -249,14 +247,14 @@ curl -X GET -i "http://localhost:8099/api/orders/5" \
      -H "Accept: application/json" \
      -H "Authorization: Bearer 6|1MnqzoxRtVhy6rSbiBtGUsvwxbImUA6mzwMnIfra341d63ae"
 ```
-## Order Filter  
+# Orders API with Filter  
 Read orders purchased by the current user
 ```bash
 curl -X GET -i "http://localhost:8099/api/orders?purchased_by_user=true" \
      -H "Accept: application/json" \
      -H "Authorization: Bearer 6|1MnqzoxRtVhy6rSbiBtGUsvwxbImUA6mzwMnIfra341d63ae"
 ```
-## Comment
+# Comments API
 Create new comment
 ```bash
 curl -X POST -i "http://localhost:8099/api/comments" \
