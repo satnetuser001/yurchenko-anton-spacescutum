@@ -2,18 +2,12 @@ services:
 
   php-cli:
     container_name: php-cli
-    build:
-      context: ./php-cli
-      dockerfile: Dockerfile
+    image: satnetuser001/yurchenko-anton-spacescutum:latest
     restart: unless-stopped
     ports:
       - "8099:8000"
     depends_on:
       - mariadb
-    volumes:
-      - type: bind
-        source: ./laravel-development
-        target: /app
     networks:
       - yurchenko-anton-spacescutum
 
