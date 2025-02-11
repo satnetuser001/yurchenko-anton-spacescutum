@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\StoreProductRequest;
 use App\Http\Requests\API\UpdateProductRequest;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -26,9 +27,30 @@ class ProductController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $paginatedProducts = Product::paginate(5);
+        $query = Product::query();
+
+        // Apply category filter
+        if ($request->has('category')) {
+            $query->where('category', $request->input('category'));
+        }
+
+        // Apply price range filter
+        if ($request->has('min_price')) {
+            $query->where('price', '>=', $request->input('min_price'));
+        }
+        if ($request->has('max_price')) {
+            $query->where('price', '<=', $request->input('max_price'));
+        }
+
+        // Apply popularity filter
+        if ($request->has('popular')) {
+            $direction = $request->input('popular') === 'asc' ? 'asc' : 'desc';
+            $query->withCount('orders')->orderBy('orders_count', $direction);
+        }
+
+        $paginatedProducts = $query->paginate(5);
 
         // Add _links for each product
         $productsWithLinks = $paginatedProducts->getCollection()->map(function ($product) {
@@ -60,8 +82,29 @@ class ProductController extends Controller implements HasMiddleware
         // Replace the original collection with a new one with _links
         $paginatedProducts->setCollection($productsWithLinks);
 
-        return response()->json($paginatedProducts, Response::HTTP_OK)
-            ->header('Cache-Control', 'private, max-age=600');
+        // Add filter links
+        $filterLinks = [
+            'category' => [
+                'href' => route('products.index', ['category' => 'example-category']),
+            ],
+            'min_price' => [
+                'href' => route('products.index', ['min_price' => 'example-min-price']),
+            ],
+            'max_price' => [
+                'href' => route('products.index', ['max_price' => 'example-max-price']),
+            ],
+            'popular_asc' => [
+                'href' => route('products.index', ['popular' => 'asc']),
+            ],
+            'popular_desc' => [
+                'href' => route('products.index', ['popular' => 'desc']),
+            ],
+        ];
+
+        return response()->json([
+            'data' => $paginatedProducts,
+            '_links_filters' => $filterLinks,
+        ], Response::HTTP_OK)->header('Cache-Control', 'private, max-age=600');
     }
 
     /**

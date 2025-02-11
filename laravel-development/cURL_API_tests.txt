@@ -79,6 +79,33 @@ curl -X DELETE -i "http://localhost:8099/api/products/1" \
      -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 
 /**
+ * Product Filters
+ */
+Filter products by category
+curl -X GET -i "http://localhost:8099/api/products?category=Category1" \
+     -H "Accept: application/json"
+
+Filter products by minimum price
+curl -X GET -i "http://localhost:8099/api/products?min_price=50" \
+     -H "Accept: application/json"
+
+Filter products by maximum price
+curl -X GET -i "http://localhost:8099/api/products?max_price=150" \
+     -H "Accept: application/json"
+
+Filter products by price range (min and max price)
+curl -X GET -i "http://localhost:8099/api/products?min_price=50&max_price=150" \
+     -H "Accept: application/json"
+
+Filter products by popularity in ascending order
+curl -X GET -i "http://localhost:8099/api/products?popular=asc" \
+     -H "Accept: application/json"
+
+Filter products by popularity in descending order
+curl -X GET -i "http://localhost:8099/api/products?popular=desc" \
+     -H "Accept: application/json"
+
+/**
  * Comment
  */
 Create new comment
@@ -132,5 +159,13 @@ curl -X GET -i "http://localhost:8099/api/orders" \
 
 Read one order by ID
 curl -X GET -i "http://localhost:8099/api/orders/1" \
+     -H "Accept: application/json" \
+     -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+
+/**
+ * Order Filter
+ */
+Read orders purchased by the current user
+curl -X GET -i "http://localhost:8099/api/orders?purchased_by_user=true" \
      -H "Accept: application/json" \
      -H "Authorization: Bearer YOUR_ACCESS_TOKEN"

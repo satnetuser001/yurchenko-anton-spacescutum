@@ -24,9 +24,17 @@ class OrderController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $paginatedOrders = Order::where('user_id', auth()->id())->paginate(5);
+        $query = Order::query();
+
+        // Apply filter for current user's purchases
+        if ($request->has('purchased_by_user')) {
+            $userId = auth()->id();
+            $query->where('user_id', $userId);
+        }
+
+        $paginatedOrders = $query->paginate(5);
 
         // Add _links for each order
         $ordersWithLinks = $paginatedOrders->getCollection()->map(function ($order) {
@@ -48,8 +56,17 @@ class OrderController extends Controller implements HasMiddleware
         // Replace the original collection with a new one with _links
         $paginatedOrders->setCollection($ordersWithLinks);
 
-        return response()->json($paginatedOrders, Response::HTTP_OK)
-            ->header('Cache-Control', 'private, max-age=600');
+        // Add filter links
+        $filterLinks = [
+            'purchased_by_user' => [
+                'href' => route('orders.index', ['purchased_by_user' => 'true']),
+            ],
+        ];
+
+        return response()->json([
+            'data' => $paginatedOrders,
+            '_links_filters' => $filterLinks,
+        ], Response::HTTP_OK)->header('Cache-Control', 'private, max-age=600');
     }
 
     /**

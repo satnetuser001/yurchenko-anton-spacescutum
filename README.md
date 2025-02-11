@@ -11,6 +11,9 @@ to do:
 APP_DEBUG=true->false
 change redirect of unauthenticated user from "/login" to "/"
 
+Product filtres:
+
+
 application web GUI  
 [Laravel](http://localhost:8099)  
 
@@ -25,3 +28,8 @@ Password (from secrets):
 temp:  
 docker exec -it php-cli bash
 sudo chown -R $USER:$USER
+
+Product filtres:
+category
+min_price
+max_price
