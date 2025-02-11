@@ -106,7 +106,7 @@ user8@example.com
 ```bash
 9|ZVLLrP3sa4iBgQ3QS05NHVkOwfOZ31KTVpTSRdfO081efed7
 ```
-#### Users API  
+### Users API  
 Create new user
 ```bash
 curl -X POST -i "http://localhost:8099/api/users" \
@@ -147,7 +147,7 @@ curl -X DELETE -i "http://localhost:8099/api/users/5" \
      -H "Accept: application/json" \
      -H "Authorization: Bearer 5|lzfyhrISeMEnowvWWlSKB17p8fROAnLJQixQrMuw101f3435"
 ```
- #### Products API  
+ ### Products API  
 Create new product
 ```bash
 curl -X POST -i "http://localhost:8099/api/products" \
@@ -192,7 +192,7 @@ curl -X DELETE -i "http://localhost:8099/api/products/1" \
      -H "Accept: application/json" \
      -H "Authorization: Bearer 6|1MnqzoxRtVhy6rSbiBtGUsvwxbImUA6mzwMnIfra341d63ae"
 ```
-#### Products API with Filters  
+### Products API with Filters  
 Filter products by category
 ```bash
 curl -X GET -i "http://localhost:8099/api/products?category=Category1" \
@@ -223,7 +223,7 @@ Filter products by popularity in descending order
 curl -X GET -i "http://localhost:8099/api/products?popular=desc" \
      -H "Accept: application/json"
 ```
-#### Orders API  
+### Orders API  
 Create new order
 ```bash
 curl -X POST -i "http://localhost:8099/api/orders" \
@@ -247,14 +247,14 @@ curl -X GET -i "http://localhost:8099/api/orders/5" \
      -H "Accept: application/json" \
      -H "Authorization: Bearer 6|1MnqzoxRtVhy6rSbiBtGUsvwxbImUA6mzwMnIfra341d63ae"
 ```
-#### Orders API with Filter  
+### Orders API with Filter  
 Read orders purchased by the current user
 ```bash
 curl -X GET -i "http://localhost:8099/api/orders?purchased_by_user=true" \
      -H "Accept: application/json" \
      -H "Authorization: Bearer 6|1MnqzoxRtVhy6rSbiBtGUsvwxbImUA6mzwMnIfra341d63ae"
 ```
-#### Comments API
+### Comments API
 Create new comment
 ```bash
 curl -X POST -i "http://localhost:8099/api/comments" \
