@@ -292,3 +292,5 @@ curl -X DELETE -i "http://localhost:8099/api/comments/16" \
      -H "Accept: application/json" \
      -H "Authorization: Bearer 6|1MnqzoxRtVhy6rSbiBtGUsvwxbImUA6mzwMnIfra341d63ae"
 ```
+### Other
+Laravel app without image [here](https://github.com/satnetuser001/yurchenko-anton-spacescutum-laravel-app)
